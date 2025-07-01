@@ -9,7 +9,11 @@
 //========================
     // CREATE DATA STRUCTURES
     //========================
-    
+
+//====================
+    // IMPLEMENT ENUMS
+    //======================
+
 //======================
     // IMPLEMENT STRUCTURES
     //======================
@@ -21,4 +25,18 @@
 //==================
     // IMPLEMENT TRAITS
     //==================
-    
+
+An attribute's JSON file will look something like this:
+
+"health" : {
+
+    "name": "Health",
+    "storage_type": 6
+    "base_value": "10.0",
+    "increment": "2.0",
+    "operation": "addition"
+
+//End of attribute
+
+It is important to note that the numerical values should be stored as strings after they've been imported from JSON so it can be properly translated based on the defined storage type,
+ with the storage type being the exception since we already know it is stored as an i8.
