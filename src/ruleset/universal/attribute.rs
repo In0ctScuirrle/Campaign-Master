@@ -26,7 +26,8 @@ pub mod attribute {
     impl Attribute {
         
         pub fn new(name: String, storage_type: i8, base_value: &str, increment: &str, operation: ExpressionType) -> Result<Self, CommonErrors> {
-            if storage_type > 7 || storage_type < 1 { Err(CommonErrors::InvalidArgument(String::from("Provided storage type value is out of bounds (1-7), please check the JSON files and ensure they're correct."))) }.expect("TODO: panic message");
+            
+            if storage_type > 7 || storage_type < 1 { return Err(CommonErrors::InvalidArgument(String::from("Provided storage type value is out of bounds (1-7), please check the JSON files and ensure they're correct."))) };
             let mut to_return: Self = Self {
                 
                 name,
@@ -36,7 +37,7 @@ pub mod attribute {
                 operation,
                 _phantom: (),
                 
-            }//End of Variable declaration
+            };//End of Variable declaration
             match storage_type{
                 
                 1 => {
@@ -51,8 +52,26 @@ pub mod attribute {
                     to_return.base_value = PackedNumber::FourBytes(base_value.parse().expect("TODO: Error message"));
                     to_return.increment = PackedNumber::FourBytes(base_value.parse().expect("TODO: Error message"));
                 }
-                
-            }
+                4 => {
+                    to_return.base_value = PackedNumber::EightBytes(base_value.parse().expect("TODO: Error message"));
+                    to_return.increment = PackedNumber::EightBytes(base_value.parse().expect("TODO: Error message"));
+                }
+                5 => {
+                    to_return.base_value = PackedNumber::SixteenBytes(base_value.parse().expect("TODO: Error message"));
+                    to_return.increment = PackedNumber::SixteenBytes(base_value.parse().expect("TODO: Error message"));
+                }
+                6 => {
+                    to_return.base_value = PackedNumber::FourByteFloat(base_value.parse().expect("TODO: Error message"));
+                    to_return.increment = PackedNumber::FourByteFloat(base_value.parse().expect("TODO: Error message"));
+                }
+                7 => {
+                    to_return.base_value = PackedNumber::EightByteFloat(base_value.parse().expect("TODO: Error message"));
+                    to_return.increment = PackedNumber::EightByteFloat(base_value.parse().expect("TODO: Error message"));
+                }
+                _ => {
+                    return Err(CommonErrors::InvalidArgument(String::from("Invalid storage type for attribute")));
+                }
+            }//End of Match-Statement
             
             Ok(to_return)
             
